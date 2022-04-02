@@ -2,7 +2,14 @@ const express = require('express');
 const logger = require('morgan');
 const routes = require('./routes');
 const bodyParser = require('body-parser');
-const { StatusCodes, ReasonPhrases } = require('./utils/status-codes/all');
+const authGate = require('./middlewares/authGate');
+const {
+  ReasonPhrases,
+  StatusCodes,
+} = require('http-status-codes');
+
+// load env variables
+require('dotenv').config()
 
 let server = null;
 
@@ -11,10 +18,12 @@ async function init() {
   app.use(bodyParser.json());
 
   // healthcheck endpoint
-  app.get('/healthcheck', (req, res) => res.status(StatusCodes.OK).send({status: ReasonPhrases.OK }));
+  app.get('/healthcheck', (req, res) => res.status(StatusCodes.OK).send({ status: ReasonPhrases.OK }));
 
   // logger setup
   app.use(logger('dev'));
+
+  app.use(authGate);
 
   // initialize all routes
   routes.init(app);
