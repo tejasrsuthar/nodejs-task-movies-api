@@ -15,26 +15,46 @@ let server = null;
 
 async function init() {
   const app = express();
+
+  // parse requests of content-type - application/json
   app.use(bodyParser.json());
 
-  // healthcheck endpoint
-  app.get('/healthcheck', (req, res) => res.status(StatusCodes.OK).send({ status: ReasonPhrases.OK }));
+  const db = require('./models');
 
-  // logger setup
-  app.use(logger('dev'));
+  console.log("URL", db.url);
+  
+  db.mongoose
+    .connect(db.url, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    })
+    .then(() => {
+      console.info("Connected to the database!");
 
-  app.use(authGate);
+      // healthcheck endpoint
+      app.get('/healthcheck', (req, res) => res.status(StatusCodes.OK).send({ status: ReasonPhrases.OK }));
 
-  // initialize all routes
-  routes.init(app);
+      // logger setup
+      app.use(logger('dev'));
 
-  // port configuration
-  const port = process.env.PORT || 4000;
+      // request authorization gate
+      app.use(authGate);
 
-  // listen to the specified port
-  server = app.listen(port);
+      // initialize all routes
+      routes.init(app);
 
-  console.info(`> App listening on http://localhost:${port}`);
+      // port configuration
+      const port = process.env.APP_PORT || 4000;
+
+      // listen to the specified port
+      server = app.listen(port, () => {
+        console.info(`> App listening on http://localhost:${port}`);
+      });
+    })
+    .catch(err => {
+      console.log("Cannot connect to the database!", err);
+      process.exit();
+    });
 }
 
 init();
