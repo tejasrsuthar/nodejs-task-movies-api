@@ -16,14 +16,6 @@ const { GEN_ERR } = require('../../utils/constants');
  * @param {Object} res - The express response object
  */
 async function getMovies(req, res) {
-	// ------------------------------------------------
-	// Action execution
-	// ------------------------------------------------
-
-
-	// ------------------------------------------------
-	// Response
-	// ------------------------------------------------
 	const response = {
 		status: 'OK',
 		data: {
