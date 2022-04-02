@@ -1,5 +1,7 @@
-module.exports = mongoose => {
-	var schema = mongoose.Schema(
+const { MODELS } = require("../utils/constants");
+
+const moviesModel = (mongoose) => {
+	const schema = mongoose.Schema(
 		{
 			userId: String,
 			title: String,
@@ -16,5 +18,7 @@ module.exports = mongoose => {
 		return object;
 	});
 
-	return mongoose.model('movies', schema);
-};
+	return mongoose.model(MODELS.MOVIES, schema);
+}
+
+module.exports = moviesModel;

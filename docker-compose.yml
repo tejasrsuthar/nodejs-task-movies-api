@@ -37,3 +37,4 @@ services:
 # named volumes to preserve data between restarts  
 volumes:
   db:
+  

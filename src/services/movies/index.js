@@ -1,15 +1,12 @@
 'use strict';
 
-const { get, post } = require('../../utils/axios');
-const {
-	ReasonPhrases,
-	StatusCodes,
-} = require('http-status-codes');
+const { StatusCodes } = require('http-status-codes');
+
 const { addMoviesSchema } = require('../../utils/joiSchema');
-const { joiDefaults, getCurrentMonth } = require('../../utils/common');
-const { getOMDBMovies } = require('../../utils/api-helper');
-const { GEN_ERR, USER_ROLES } = require('../../utils/constants');
 const db = require('../../models');
+const { getOMDBMovies } = require('../../utils/api-helper');
+const { GEN_ERR, USER_ROLES, MOVIES } = require('../../utils/constants');
+const { joiDefaults, getCurrentMonth } = require('../../utils/common');
 
 /**
  * @description The function to get all movie records
@@ -20,9 +17,9 @@ async function getMoviesByUserId(req, res) {
 	try {
 		const { user: { userId } } = req;
 		const movies = await db.movies.find({ userId });
-
 		const response = { status: 'OK', data: { movies }, error: null };
-		res.status(StatusCodes.OK).send(response);
+
+		return res.status(StatusCodes.OK).send(response);
 	} catch (error) {
 		const response = {
 			status: 'ERROR',
@@ -43,13 +40,18 @@ async function addMovie(req, res) {
 	try {
 		const { user: { userId } } = req;
 
-		if (!userAllowedToAddMovie(req)) {
+		const allowedToAddMovie = await userAllowedToAddMovie(req);
+
+		if (!allowedToAddMovie) {
+			console.warn(GEN_ERR.BASIC_USER_MAX_LIMIT_REACHED);
+
 			const response = {
 				status: 'ERROR',
 				data: null,
-				userMessage: "User max limit reached",
-				error: error.message,
+				userMessage: GEN_ERR.BASIC_USER_MAX_LIMIT_REACHED,
+				error: null,
 			};
+
 			return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(response);
 		}
 
@@ -59,33 +61,35 @@ async function addMovie(req, res) {
 		if (isValid.error) {
 			const errorMessage = isValid.error.details.map((d) => d.message).join(', ');
 			const response = { status: 'ERROR', userMessage: errorMessage, data: null };
+
 			return res.status(StatusCodes.BAD_REQUEST).send(response);
 		}
 
 		// always get sanatized value after validation
 		const { title } = isValid.value;
 
-		const movieResponse = await getOMDBMovies(title);
+		const movieResponse = await getOMDBMovies(encodeURI(title));
 
 		if (movieResponse && movieResponse.Response === 'False') {
-			const response = { status: 'OK', data: null, userMessage: movieResponse.Error };
+			const response = { status: 'OK', data: null, userMessage: movieResponse.Error, error: null };
+
 			return res.status(StatusCodes.NOT_FOUND).send(response);
 		}
 
 		const { Title: mTitle, Released: released, Genere: genere, Director: director } = movieResponse;
 		const params = { userId, title: mTitle, released, genere, director };
-		console.info('params', params);
 		const resp = await (new db.movies(params).save());
 
 		const response = {
 			status: 'OK',
 			data: resp,
-			userMessage: "Movie has been added successfully",
+			userMessage: MOVIES.USER_MOVIE_ADD_SUCCESS,
 			error: null
 		};
 
 		return res.status(StatusCodes.OK).send(response);
 	} catch (error) {
+		console.error(error.message);
 		const response = {
 			status: 'ERROR',
 			data: null,
@@ -116,21 +120,32 @@ const getUserRole = (user) => {
  * @returns boolean 
  */
 const userAllowedToAddMovie = async (req) => {
-
 	const { user, user: { userId } } = req;
 	const currentUserRole = getUserRole(user);
 
-	// for premium user, we allowed unlimited movies to be added
 	if (currentUserRole === USER_ROLES.PREMIUM) {
+		// for premium user, we allowed unlimited movies to be added
+
 		return true;
 	} else if (currentUserRole === USER_ROLES.BASIC) {
 		// for basic user there is limit
-		const calendarMonth = getCurrentMonth();
-		// get user movies per calendar month
-		const movies = await db.movies.find({ userId }).where({});
+		const month = getCurrentMonth();
+
+		// get logged in user movies per calendar month
+		const query = {
+			'$expr': {
+				'$and': [
+					{ '$eq': [{ '$month': '$createdAt' }, month] },
+					{ '$eq': ['$userId', userId.toString()] },
+				]
+			}
+		};
+		const totalMoviesInMonth = await db.movies.find(query).count();
+
+		return totalMoviesInMonth < MOVIES.ADD_LIMITS.BASIC_USER;
 	}
 
-	return true;
+	return false;
 }
 
 module.exports = {
