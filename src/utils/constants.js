@@ -5,8 +5,16 @@ const AUTH_ERR = {
 	INVALID_TOKEN: 'Invalid Token',
 }
 
+const GEN_ERR = {
+	SOMETHING_WENT_WRONG: 'Something went wrong! Please try again later',
+}
+const API_URLS = {
+	BASE_URL: process.env.OMDB_API_URL,
+}
 
 module.exports = {
-	AUTH_ERR
+	GEN_ERR,
+	AUTH_ERR,
+	API_URLS,
 }
 
