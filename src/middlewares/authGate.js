@@ -14,11 +14,10 @@ function authGate(req, res, next) {
 	const authorizationHeader = req.headers["authorization"];
 	const token = parseBearer(authorizationHeader);
 
-	console.log("TOKEN", token);
 	const { status, decoded } = verifyToken(token);
 
 	if (status && decoded) {
-		res.user = decoded;
+		req.user = decoded;
 		return next();
 	} else {
 		const response = {

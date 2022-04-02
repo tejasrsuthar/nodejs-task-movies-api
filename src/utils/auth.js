@@ -17,7 +17,6 @@ const parseBearer = (bearer) => {
 
 const verifyToken = (token) => {
 	try {
-		console.log("JWT", process.env.JWT_SECRET);
 		const decoded = jwt.verify(token, process.env.JWT_SECRET);
 		return { status : true, decoded };
 	} catch (error) {
