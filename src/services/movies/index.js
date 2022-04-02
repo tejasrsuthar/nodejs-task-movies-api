@@ -71,7 +71,6 @@ async function addMovie(req, res) {
 
 		const { Title, Released, Genre, Director } = movie;
 
-		// Response
 		const response = {
 			status: 'OK',
 			data: { Title, Released, Genre, Director },
