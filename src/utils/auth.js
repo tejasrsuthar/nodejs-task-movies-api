@@ -1,4 +1,6 @@
 // util functions related to auth
+'use strict';
+
 const { isEmpty } = require('lodash');
 const jwt = require("jsonwebtoken");
 

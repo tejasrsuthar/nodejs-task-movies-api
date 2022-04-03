@@ -1,3 +1,5 @@
+'use strict';
+
 const axios = require("axios");
 
 //TODO:investigage: from root its already injected, still need to call here

@@ -1,3 +1,5 @@
+'use strict';
+
 const {
   DB_USER,
   DB_PASSWORD,

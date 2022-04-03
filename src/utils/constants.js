@@ -1,4 +1,5 @@
 // common app wide constants
+'use strict';
 
 //TODO: more localized approach can be possible here, if time permits :P
 const AUTH_ERR = {

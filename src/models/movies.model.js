@@ -1,3 +1,5 @@
+'use strict';
+
 const { MODELS } = require("../utils/constants");
 
 const moviesModel = (mongoose) => {

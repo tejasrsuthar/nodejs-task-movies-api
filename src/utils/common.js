@@ -1,4 +1,6 @@
 // common util functions across the app
+'use strict';
+
 const dayjs = require('dayjs');
 
 /**

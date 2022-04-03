@@ -1,3 +1,5 @@
+'use strict';
+
 const express = require('express');
 const logger = require('morgan');
 const helmet = require('helmet');
@@ -47,7 +49,7 @@ require('dotenv').config();
   const port = process.env.APP_PORT || 4000;
 
   // listen to the specified port
-  server = app.listen(port, () => {
+  const server = app.listen(port, () => {
     console.info(GEN_MSG.APP_LISTENING_ON, `http://localhost:${port}`);
   });
 

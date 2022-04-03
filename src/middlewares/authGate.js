@@ -1,4 +1,5 @@
 // auth gate to protect unauthorized requests
+'use strict';
 
 const { AUTH_ERR } = require("../utils/constants");
 const { parseBearer, verifyToken } = require("../utils/auth");
