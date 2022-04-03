@@ -2,11 +2,13 @@
 
 ## Techstack
 
-- Database: `MongoDb`
 - Server: `Express.JS`
+- Database: `MongoDb`
+- Tests Framework: `Jest`
+- Code Versioning: `git`
+- Code Repository: `github`
 - Container System: `Docker, docker-compose`
-- Code Versioning: `git / github`
-- CI/CD: `Github Actions`
+- CI: `Github Actions`
 - IDE: `Local VSCode`
 
 ## Architecture
@@ -35,7 +37,6 @@ Current app architecture exposes 2 basic `bearer token` protected, endpoints for
 - sample ENV. variables for ref.
   - ##### external API
     - OMDB_API_URL=https://www.omdbapi.com
-    - OMDB_API_KEY=DONT_EXPOSE_KEYS
     - NODE_ENV=development
   - ##### Database
     - MONGODB_USER=root
@@ -65,13 +66,13 @@ Current app architecture exposes 2 basic `bearer token` protected, endpoints for
 - ##### Step2:
   - spin up the docker containers by following `docker-compose` command at the root of the directory where `Dockerfile` and `docker-compose` exists.
 
-> Note: Mostly all the required env. variables will be referenced from .env, except the sensitive OMDB_API_KEY file available at the root along with Dockerfile and docker-compose.yml. Since the API key is sensitive, it will be sent on different medium
+> Note: Mostly all the required env. variables will be referenced from .env (except the sensitive OMDB_API_KEY and JWT_SECRET) available at the root along with Dockerfile and docker-compose.yml. Since the OMDB_API_KEY, JWT_SECRET is sensitive, it will be sent on different medium
 
 ```
-OMDB_API_KEY=<api_key> docker-compose up
+OMDB_API_KEY=<api_key> JWT_SECRET=<jwt_secret> docker-compose up
 ```
 
-- #### Spin down the containers
+- #### Spin down the service
   execute following command
 
 ```
