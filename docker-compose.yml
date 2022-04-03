@@ -20,6 +20,7 @@ services:
       - DB_NAME=$MONGODB_DATABASE
       - DB_PORT=$MONGODB_DOCKER_PORT
       - JWT_SECRET=$JWT_SECRET
+      - OMDB_API_KEY=$OMDB_API_KEY
     stdin_open: true
     tty: true
   mongodb:

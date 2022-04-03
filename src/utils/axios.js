@@ -2,9 +2,6 @@
 
 const axios = require("axios");
 
-//TODO:investigage: from root its already injected, still need to call here
-require('dotenv').config();
-
 //apply base url for axios
 const API_URL = process.env.OMDB_API_URL;
 
