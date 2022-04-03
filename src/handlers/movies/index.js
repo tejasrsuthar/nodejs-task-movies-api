@@ -1,7 +1,7 @@
 'use strict';
 
 const express = require('express'),
-  moviesService = require('../../../services/movies');
+  moviesService = require('../../services/movies');
 
 let router = express.Router();
 

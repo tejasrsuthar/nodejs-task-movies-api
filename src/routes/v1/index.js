@@ -1,7 +1,7 @@
 'use strict';
 
 const express = require('express'),
-  moviesHandler = require('../../../handlers/apis/movies');
+  moviesHandler = require('../../handlers/movies');
 
 let router = express.Router();
 
