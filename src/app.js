@@ -1,5 +1,6 @@
 const express = require('express');
 const logger = require('morgan');
+const helmet = require('helmet');
 const routes = require('./routes');
 const bodyParser = require('body-parser');
 const authGate = require('./middlewares/authGate');
@@ -15,17 +16,19 @@ require('dotenv').config();
 (async () => {
   const app = express();
 
+  // secure the service by adding headers
+  app.use(helmet());
+
   // parse requests of content-type - application/json
   app.use(bodyParser.json());
 
+  // db connection
   const db = require('./models');
-
   await db.mongoose
     .connect(db.url, { useNewUrlParser: true, useUnifiedTopology: true }).catch(err => {
       console.error(SERV_ERR.CAN_NOT_CONNECT_TO_DB, err);
       process.exit();
     });
-
   console.info(GEN_MSG.DB_CONNECTED);
 
   // healthcheck endpoint
@@ -48,6 +51,17 @@ require('dotenv').config();
     console.info(GEN_MSG.APP_LISTENING_ON, `http://localhost:${port}`);
   });
 
+  const cleanup = async () => {
+    // close the database connection 
+    console.info(GEN_MSG.DB_CONNECTION_CLOSING);
+    await db.mongoose.connection.close();
+    console.info(GEN_MSG.DB_CONNECTION_CLOSED);
+  };
+
+  const finalShutdown = () => {
+    console.info(GEN_MSG.SERVER_SHUTTING_DOWN);
+  }
+
   /**
    * Gracefully shutting down the server
    * we need to make sure we close the db connection
@@ -61,16 +75,5 @@ require('dotenv').config();
     finally: finalShutdown            // finally function (sync) - e.g. for logging
   };
   gracefulShutdown(server, opts);
-
-  const cleanup = async () => {
-    // close the database connection 
-    console.info(GEN_MSG.DB_CONNECTION_CLOSING);
-    await db.mongoose.connection.close();
-    console.info(GEN_MSG.DB_CONNECTION_CLOSED);
-  };
-
-  const finalShutdown = () => {
-    console.info(GEN_MSG.SERVER_SHUTTING_DOWN);
-  }
 })();
 
