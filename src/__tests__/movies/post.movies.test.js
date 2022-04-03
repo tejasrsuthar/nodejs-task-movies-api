@@ -1,16 +1,14 @@
 process.env.NODE_ENV = 'test';
 
-const { addMovie } = require('../../services/movies');
-const { GEN_ERR } = require('../../utils/constants');
+const { addMovie, getUserRole } = require('../../services/movies');
+const basicUser = require('./mock/user/basic-user.json');
+const { GEN_ERR, USER_ROLES } = require('../../utils/constants');
 const { mockRequest, mockResponse } = require('jest-mock-req-res');
 const Models = require('../../models/index');
-const { StatusCodes } = require('http-status-codes');
-const basicUser = require('./mock/user/basic-user.json');
 const premiumUser = require('./mock/user/premium-user.json');
-const omdbAPIResponse = require('./mock/omdb-api/omdb-api-response.json');
-const apiHelper = require('../../utils/api-helper');
+const { StatusCodes } = require('http-status-codes');
 
-describe('getMovies service', () => {
+describe('addMovie service', () => {
 
   it('should validate incoming request', async () => {
     const moviesFindMock = Models.movies.find = jest.fn();
@@ -30,8 +28,30 @@ describe('getMovies service', () => {
     expect(res.send).toHaveBeenCalledWith(errorResponse);
   });
 
-  it('should restrict basic user to predefined allowed limit', async () => {
+  it('should handle unknown error', async () => {
+    // setup mocks
+    const moviesFindMock = Models.movies.find = jest.fn();
+    moviesFindMock.mockImplementation(() => { throw new Error('some unknown error') });
 
+    const res = mockResponse();
+    const req = mockRequest({ user: basicUser });
+
+    // execute service
+    await addMovie(req, res);
+
+    const errorResponse = {
+      status: 'ERROR',
+      data: null,
+      userMessage: GEN_ERR.SOMETHING_WENT_WRONG,
+      error: 'some unknown error',
+    };
+
+    // assertions
+    expect(res.status).toHaveBeenCalledWith(StatusCodes.INTERNAL_SERVER_ERROR);
+    expect(res.send).toHaveBeenCalledWith(errorResponse);
+  });
+
+  it('should restrict basic user to predefined allowed limit', async () => {
     // setup mocks
     const moviesFindMock = Models.movies.find = jest.fn();
     // set the total more than the basic user limit to simulate the error scenario
@@ -52,5 +72,14 @@ describe('getMovies service', () => {
     // assertions
     expect(res.status).toHaveBeenCalledWith(StatusCodes.NOT_ACCEPTABLE);
     expect(res.send).toHaveBeenCalledWith(addMovieResponse);
+  });
+});
+
+describe('getUserRole function', () => {
+  it('should defaults to basic role', () => {
+    const role = getUserRole();
+
+    // assertions
+    expect(role).toEqual(USER_ROLES.BASIC);
   });
 });

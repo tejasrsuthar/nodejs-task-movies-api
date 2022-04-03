@@ -87,7 +87,6 @@ async function addMovie(req, res) {
 
 		return res.status(StatusCodes.OK).send(response);
 	} catch (error) {
-		console.error(error.message);
 		const response = {
 			status: 'ERROR',
 			data: null,
@@ -147,5 +146,6 @@ const userAllowedToAddMovie = async (req) => {
 
 module.exports = {
 	getMovies: getMoviesByUserId,
-	addMovie
+	addMovie,
+	getUserRole
 };

@@ -2,8 +2,15 @@
   "name": "nodejs-task-movies-api",
   "version": "1.0.0",
   "description": "A nodejs movies api, leveages the OMDB API",
+  "jest": {
+    "collectCoverage": true,
+    "coverageReporters": [
+      "json",
+      "html"
+    ]
+  },
   "scripts": {
-    "test": "jest",
+    "test": "jest --coverage",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
     "start:dev": "npx nodemon app.js",
