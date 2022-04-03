@@ -4,7 +4,7 @@ const v1Routes = require('./v1');
 
 const init = (server) => {
   server.get('*', function(req, _, next) {
-    console.log('Request was made to: ' + req.originalUrl);
+    console.info('Request was made to: ' + req.originalUrl);
     return next();
   });
 
