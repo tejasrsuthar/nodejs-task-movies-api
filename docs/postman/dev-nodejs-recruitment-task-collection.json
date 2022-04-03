@@ -1,0 +1,658 @@
+{
+	"info": {
+		"_postman_id": "407011e0-c620-4d5f-96dd-c2e153c6d848",
+		"name": "NodeJS Recruitment Task",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "/auth",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"const jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"token\",jsonData.token);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"basic-thomas\",\n    \"password\": \"sR-_pcoow-27-6PAwCD8\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/auth",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"auth"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Req: User Type Basic",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"basic-thomas\",\n    \"password\": \"sR-_pcoow-27-6PAwCD8\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://0.0.0.0:3000/auth",
+									"protocol": "http",
+									"host": [
+										"0",
+										"0",
+										"0",
+										"0"
+									],
+									"port": "3000",
+									"path": [
+										"auth"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Req: User Type Premium",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"premium-jim\",\n    \"password\": \"GBLtTyq3E_UNjFnpo9m6\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{$guid}}/auth",
+									"host": [
+										"{{$guid}}"
+									],
+									"path": [
+										"auth"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Resp",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"basic-thomas\",\n    \"password\": \"sR-_pcoow-27-6PAwCD8\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/auth",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"auth"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "267"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"10b-4mKCutk2QvBgeu2gdzBUBn8geRE\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 02 Apr 2022 03:05:13 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEyMywibmFtZSI6IkJhc2ljIFRob21hcyIsInJvbGUiOiJiYXNpYyIsImlhdCI6MTY0ODg2ODcxMywiZXhwIjoxNjQ4ODcwNTEzLCJpc3MiOiJodHRwczovL3d3dy5uZXRndXJ1LmNvbS8iLCJzdWIiOiIxMjMifQ.lYyeCbqHPX_TUDwinHF0kN7baIYXTzaOVt1BlyTR8TU\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "movies",
+			"item": [
+				{
+					"name": "v1",
+					"item": [
+						{
+							"name": "/movies",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{appHost}}/v1/movies",
+									"host": [
+										"{{appHost}}"
+									],
+									"path": [
+										"v1",
+										"movies"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Resp: Get premium users movies",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer ",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "http://0.0.0.0:4000/v1/movies",
+											"protocol": "http",
+											"host": [
+												"0",
+												"0",
+												"0",
+												"0"
+											],
+											"port": "4000",
+											"path": [
+												"v1",
+												"movies"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "862"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"35e-OzbIbbQ9Uq00mAjdgXLFeDd1rK8\""
+										},
+										{
+											"key": "Date",
+											"value": "Sun, 03 Apr 2022 02:55:31 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": \"OK\",\n    \"data\": {\n        \"movies\": [\n            {\n                \"userId\": \"434\",\n                \"title\": \"Spider-Man: No Way Home\",\n                \"released\": \"17 Dec 2021\",\n                \"director\": \"Jon Watts\",\n                \"createdAt\": \"2022-04-03T02:38:19.096Z\",\n                \"updatedAt\": \"2022-04-03T02:38:19.096Z\",\n                \"id\": \"6249089b8dbb9768e5c054ec\"\n            },\n            {\n                \"userId\": \"434\",\n                \"title\": \"Eternals\",\n                \"released\": \"05 Nov 2021\",\n                \"director\": \"Chloé Zhao\",\n                \"createdAt\": \"2022-04-03T02:41:58.623Z\",\n                \"updatedAt\": \"2022-04-03T02:41:58.623Z\",\n                \"id\": \"624909763b7de79cc240adf1\"\n            }\n        ]\n    },\n    \"error\": null\n}"
+								},
+								{
+									"name": "Resp: Get basic user movies",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{appHost}}/v1/movies",
+											"host": [
+												"{{appHost}}"
+											],
+											"path": [
+												"v1",
+												"movies"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "1013"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"3f5-Vx4Jsr0pMbhen152itYEYIn+dR4\""
+										},
+										{
+											"key": "Date",
+											"value": "Sun, 03 Apr 2022 03:02:33 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": \"OK\",\n    \"data\": {\n        \"movies\": [\n            {\n                \"userId\": \"123\",\n                \"title\": \"Batman\",\n                \"released\": \"23 Jun 1989\",\n                \"director\": \"Tim Burton\",\n                \"createdAt\": \"2022-04-02T16:23:07.316Z\",\n                \"updatedAt\": \"2022-04-02T16:23:07.316Z\",\n                \"id\": \"6248786b156914555f124dc7\"\n            }\n        ]\n    },\n    \"error\": null\n}"
+								}
+							]
+						},
+						{
+							"name": "/movies",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\": \"Batman\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{appHost}}/v1/movies",
+									"host": [
+										"{{appHost}}"
+									],
+									"path": [
+										"v1",
+										"movies"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Resp: Basic user max limit reached",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer ",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"title\": \"Batman\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://0.0.0.0:4000/v1/movies",
+											"protocol": "http",
+											"host": [
+												"0",
+												"0",
+												"0",
+												"0"
+											],
+											"port": "4000",
+											"path": [
+												"v1",
+												"movies"
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "110"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"6e-DyXJlo1QYwm9jwGIkx4hnuZI0/0\""
+										},
+										{
+											"key": "Date",
+											"value": "Sun, 03 Apr 2022 03:04:05 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": \"ERROR\",\n    \"data\": null,\n    \"userMessage\": \"You have reached your max limit for adding movies!\",\n    \"error\": null\n}"
+								},
+								{
+									"name": "Resp: Add movie",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"title\": \"Hawkeye\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{appHost}}/v1/movies",
+											"host": [
+												"{{appHost}}"
+											],
+											"path": [
+												"v1",
+												"movies"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "273"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"111-Z780Ze9WbTD79xBiPjBrVV7YSsQ\""
+										},
+										{
+											"key": "Date",
+											"value": "Sun, 03 Apr 2022 03:06:16 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": \"OK\",\n    \"data\": {\n        \"userId\": \"434\",\n        \"title\": \"Hawkeye\",\n        \"released\": \"24 Nov 2021\",\n        \"director\": \"N/A\",\n        \"createdAt\": \"2022-04-03T03:06:16.153Z\",\n        \"updatedAt\": \"2022-04-03T03:06:16.153Z\",\n        \"id\": \"62490f28f06cbafe06e7fae1\"\n    },\n    \"userMessage\": \"Movie has been added successfully!\",\n    \"error\": null\n}"
+								},
+								{
+									"name": "Validation: Empty title provided",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"title\": \"\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{appHost}}/v1/movies",
+											"host": [
+												"{{appHost}}"
+											],
+											"path": [
+												"v1",
+												"movies"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "83"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"53-bWdPlFytfhe80iSSpR+AyICmtSs\""
+										},
+										{
+											"key": "Date",
+											"value": "Sun, 03 Apr 2022 03:08:03 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": \"ERROR\",\n    \"userMessage\": \"\\\"title\\\" is not allowed to be empty\",\n    \"data\": null\n}"
+								},
+								{
+									"name": "Validation: Title field is required",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{appHost}}/v1/movies",
+											"host": [
+												"{{appHost}}"
+											],
+											"path": [
+												"v1",
+												"movies"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "68"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"44-6aEPGM0C1wlIjq/5mfeXOVHlXt8\""
+										},
+										{
+											"key": "Date",
+											"value": "Sun, 03 Apr 2022 03:08:52 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": \"ERROR\",\n    \"userMessage\": \"\\\"title\\\" is required\",\n    \"data\": null\n}"
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	]
+}
