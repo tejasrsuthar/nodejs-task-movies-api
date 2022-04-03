@@ -15,6 +15,7 @@ Current app architecture exposes 2 basic `bearer token` protected, endpoints for
 
 - When request comes from the client for geting the movies, it queries the mongoDB for user's added movies and respond back.
 - When request comes from the client for add the movie, it will first check whether the user role is `basic` and exceed the allowed limit of `5` movies per calendar month or not. Based on the decision further request send OMDB database for the serach. For successfull movie response, its stored to `movies` database along with `userId` of the requested user.
+- Simple CI through github Actions has been implemented. This CI workflow will execute on master branch push or pull requests targeting the master branch.
 - ##### Directories Explained
   - ###### routes
     - All the routes for movies service has been defined here with `v1` versioning structure. The routes are initialized with init function in `routes/index.js` file.
@@ -65,7 +66,6 @@ Current app architecture exposes 2 basic `bearer token` protected, endpoints for
   - spin up the docker containers by following `docker-compose` command at the root of the directory where `Dockerfile` and `docker-compose` exists.
 
 > Note: Mostly all the required env. variables will be referenced from .env, except the sensitive OMDB_API_KEY file available at the root along with Dockerfile and docker-compose.yml. Since the API key is sensitive, it will be sent on different medium
-
 
 ```
 OMDB_API_KEY=<api_key> docker-compose up
