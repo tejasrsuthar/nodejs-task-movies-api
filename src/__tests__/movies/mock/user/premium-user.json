@@ -1,0 +1,9 @@
+{
+  "userId": 434,
+  "name": "Premium Jim",
+  "role": "premium",
+  "iat": 1648994632,
+  "exp": 1648996432,
+  "iss": "https://www.netguru.com/",
+  "sub": "434"
+}

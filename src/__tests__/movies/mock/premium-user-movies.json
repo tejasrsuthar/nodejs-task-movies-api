@@ -1,0 +1,29 @@
+[
+  {
+    "userId": "434",
+    "title": "Spider-Man: No Way Home",
+    "released": "17 Dec 2021",
+    "director": "Jon Watts",
+    "createdAt": "2022-04-03T02:38:19.096Z",
+    "updatedAt": "2022-04-03T02:38:19.096Z",
+    "id": "6249089b8dbb9768e5c054ec"
+  },
+  {
+    "userId": "434",
+    "title": "Batman",
+    "released": "23 Jun 1989",
+    "director": "Tim Burton",
+    "createdAt": "2022-04-02T16:23:07.316Z",
+    "updatedAt": "2022-04-02T16:23:07.316Z",
+    "id": "6248786b156914555f124dc7"
+  },
+  {
+    "userId": "434",
+    "title": "Eternals",
+    "released": "05 Nov 2021",
+    "director": "Chloé Zhao",
+    "createdAt": "2022-04-03T02:56:09.422Z",
+    "updatedAt": "2022-04-03T02:56:09.422Z",
+    "id": "62490cc9f06cbafe06e7fadc"
+  }
+]

@@ -43,8 +43,6 @@ async function addMovie(req, res) {
 		const allowedToAddMovie = await userAllowedToAddMovie(req);
 
 		if (!allowedToAddMovie) {
-			console.warn(GEN_ERR.BASIC_USER_MAX_LIMIT_REACHED);
-
 			const response = {
 				status: 'ERROR',
 				data: null,
@@ -52,7 +50,7 @@ async function addMovie(req, res) {
 				error: null,
 			};
 
-			return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(response);
+			return res.status(StatusCodes.NOT_ACCEPTABLE).send(response);
 		}
 
 		// input Validation gate
@@ -60,7 +58,7 @@ async function addMovie(req, res) {
 
 		if (isValid.error) {
 			const errorMessage = isValid.error.details.map((d) => d.message).join(', ');
-			const response = { status: 'ERROR', userMessage: errorMessage, data: null };
+			const response = { status: 'ERROR', userMessage: errorMessage, data: null, error: null };
 
 			return res.status(StatusCodes.BAD_REQUEST).send(response);
 		}
@@ -122,7 +120,6 @@ const getUserRole = (user) => {
 const userAllowedToAddMovie = async (req) => {
 	const { user, user: { userId } } = req;
 	const currentUserRole = getUserRole(user);
-
 	if (currentUserRole === USER_ROLES.PREMIUM) {
 		// for premium user, we allowed unlimited movies to be added
 

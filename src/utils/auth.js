@@ -20,9 +20,10 @@ const parseBearer = (bearer) => {
 const verifyToken = (token) => {
 	try {
 		const decoded = jwt.verify(token, process.env.JWT_SECRET);
-		return { status : true, decoded };
+		return { status: true, decoded };
 	} catch (error) {
 		console.log('ERROR', error);
+
 		// further error types needs to be extracted
 		return { status: false, error }
 	}

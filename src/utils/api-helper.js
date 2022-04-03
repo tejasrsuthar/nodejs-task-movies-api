@@ -1,8 +1,9 @@
 // helper for external api calls
 'use strict';
 
-const { get } = require('./axios');
+
 const { API_URLS } = require('./constants');
+const { get } = require('./axios');
 
 const paramApiKey = `?apikey=${process.env.OMDB_API_KEY}`;
 

@@ -1,0 +1,9 @@
+{
+  "userId": 123,
+  "name": "Basic Thomas",
+  "role": "basic",
+  "iat": 1648994518,
+  "exp": 1648996318,
+  "iss": "https://www.netguru.com/",
+  "sub": "123"
+}
